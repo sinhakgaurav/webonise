@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="widget-header">
                                     <h3>Sort By</h3>
-                                    <form style="display: inline-block" action="" method="post">
+                                    <form style="display: inline-block" action="" method="get">
                                         <select id="sort_type" name="sort_by" required="required" >
                                             <option value="">Select option to sort</option>
                                             <option value="userByLateCount">By high to low latecount</option>
@@ -118,6 +118,12 @@
                                 </div>
                                 <!-- /widget-content --> 
                             </div>
+                            <div class="pagination-right widget ">
+                                    {% set k=pageCount%}
+                                    {% for i in range(1, k) %}
+                                    <a class="btn {% if currentPage==i %}btn-success {% else %}btn-primary {% endif %}" href="{{currentUrl}}&pagenumber={{i}}">{{i}}</a>
+                                    {% endfor %}
+                                </div>
                         </div>
 
                     </div>

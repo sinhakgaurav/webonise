@@ -27,7 +27,7 @@ class Home extends Controller {
         if ($_POST) {
             if($this->validate($_POST)){
             $user = $this->service->getUser($_POST);
-            if($user){
+            if($user && !isset($user['punch'])){
             //var_dump($user);
                 if(strtotime($user['time_entered'])>  strtotime('10:00:00')){
                     $_SESSION['error'][]="We expected you to arrive a bit early(atmost by 10AM)!!! ";
@@ -35,7 +35,10 @@ class Home extends Controller {
                     $_SESSION['success'][]="Welcome!!! That's good to return early. Time logged!!";
                 }
             
-            }else{
+            }elseif (isset($user['punch'])) {
+                    /*do nothing */
+                }
+            else{
                 $_SESSION['error'][]="Something missed!! You were not found. Please register to continue.";
             }
             }

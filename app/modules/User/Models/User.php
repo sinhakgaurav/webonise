@@ -26,7 +26,8 @@ class User {
             } else {
                 
                 $_SESSION['error'][] = "Don't worry!! You are already inside.";
-                return false;
+                $user['punch']='done';
+                return $user;
             }
         }
     }

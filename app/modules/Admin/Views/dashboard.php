@@ -78,13 +78,13 @@
                                                 <div class="stat" title="Total Employees"> <i class="icon-user"></i> <span class="value"> {% if totalEmp %}{{totalEmp}}{% else %} 0 {% endif %}</span> </div>
 
 
-                                                <div class="stat" title="Absent"> <i class="icon-ban-circle"></i> <span class="value">{% if notPresent %} {{notPresent}} {% else %} NA {% endif %}</span> </div>
+                                                <div class="stat" title="Absent"> <i class="icon-ban-circle"></i> <span class="value">{% if notPresent %} {{notPresent}} {% else %} 0 {% endif %}</span> </div>
 
 
-                                                <div class="stat" title="Currently Present"> <i class="icon-check-sign"></i> <span class="value">{% if signedIn %} {{signedIn}}{% else %} NA {% endif %}</span> </div>
+                                                <div class="stat" title="Currently Present"> <i class="icon-check-sign"></i> <span class="value">{% if signedIn %} {{signedIn}}{% else %} 0 {% endif %}</span> </div>
 
 
-                                                <div class="stat" title="Average In Time"> <i class="icon-time"></i> <span class="value">{% if averageInTime %} {{averageInTime}}{% else %} NA {% endif %}</span> </div>
+                                                <div class="stat" title="Average In Time"> <i class="icon-time"></i> <span class="value">{% if averageInTime %} {{averageInTime}}{% else %} 00:00 {% endif %}</span> </div>
 
                                             </div>
                                         </div>
@@ -148,8 +148,16 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- /widget-content --> 
+                                
+                                <!-- /widget-content -->  
+                                
                             </div>
+                            <div class="pagination-right widget ">
+                                    {% set k=pageCount%}
+                                    {% for i in range(1, k) %}
+                                    <a class="btn {% if currentPage==i %}btn-success {% else %}btn-primary {% endif %}" href="/admin/home/dashboard?pagenumber={{i}}">{{i}}</a>
+                                    {% endfor %}
+                                </div>
                         </div>
                     </div>
                 </div> 

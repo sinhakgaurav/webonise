@@ -52,8 +52,8 @@ class User {
      * @returns array of user
      */
 
-    public function getUsersWithDetails($data) {
-        $users = $this->repository->getUsersWithDetails($data);
+    public function getUsersWithDetails($data ,$startFrom,$rowNum) {
+        $users = $this->repository->getUsersWithDetails($data,$startFrom,$rowNum);
         $returnData = array();
         $count = 0;
         foreach ($users AS $user) {
@@ -115,8 +115,8 @@ class User {
      * @returns a array with user details
      */
 
-    public function getUsersWithAllDetails($data = null) {
-        return $this->repository->getUserListByType($data);
+    public function getUsersWithAllDetails($data = null,$startFrom=0,$rowNum=0) {
+        return $this->repository->getUserListByType($data,$startFrom,$rowNum);
     }
 
     /*

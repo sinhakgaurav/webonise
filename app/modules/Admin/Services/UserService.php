@@ -58,8 +58,8 @@ class UserService {
      * @returns array of users
      */
 
-    public function getUsersWithDetails($data = null) {
-        return $this->model->getUsersWithDetails($data);
+    public function getUsersWithDetails($data = null,$startFrom=0,$rowNum=0) {
+        return $this->model->getUsersWithDetails($data,$startFrom,$rowNum);
     }
 
     /*
@@ -76,8 +76,8 @@ class UserService {
      * @returns a array with user details
      */
 
-    public function getUsersWithAllDetails($data = null) {
-        return $this->model->getUsersWithAllDetails($data);
+    public function getUsersWithAllDetails($data = null,$startFrom=0,$rowNum=0) {
+        return $this->model->getUsersWithAllDetails($data,$startFrom,$rowNum);
     }
 
     /*

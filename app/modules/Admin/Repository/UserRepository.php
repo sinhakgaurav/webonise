@@ -22,9 +22,9 @@ class UserRepository extends Repository {
         return $this->dbManager->read_query('SELECT * FROM admin where user_name="' . $data['username'] . '" AND password="' . md5($data['password']) . '"');
     }
 
-    public function getUsers() {
+    public function getUsers($dataRow=null,$startFrom=0,$rowNum=0) {
         $returnData = array();
-        $usersQuery = $this->getUsersQuery();
+        $usersQuery = $this->getUsersQuery($dataRow,$startFrom,$rowNum);
         if ($usersQuery) {
             while ($data = $usersQuery->fetch_assoc()) {
                 $returnData[$data['id']] = $data;
@@ -33,9 +33,12 @@ class UserRepository extends Repository {
         return $returnData;
     }
 
-    private function getUsersQuery() {
-
-        return $this->dbManager->read_query('SELECT * FROM user WHERE status="1"');
+    private function getUsersQuery($dataRow,$startFrom,$rowNum) {
+        $limit='';
+        if($rowNum!=0){
+            $limit.=' limit '.$startFrom.','.$rowNum;
+        }
+        return $this->dbManager->read_query('SELECT * FROM user WHERE status="1" '. $limit);
     }
 
     public function getPunchin($data = null) {
@@ -64,8 +67,8 @@ class UserRepository extends Repository {
      * @returns array of user
      */
 
-    public function getUsersWithDetails($data) {
-        return $this->getUsers($data);
+    public function getUsersWithDetails($data,$startFrom,$rowNum) {
+        return $this->getUsers($data,$startFrom,$rowNum);
     }
 
     /*
@@ -104,9 +107,9 @@ class UserRepository extends Repository {
      * @returns a array to model
      */
 
-    public function getUserListByType($data = NULL) {
+    public function getUserListByType($data = NULL,$startFrom=0,$rowNum=0) {
         $returnData = array();
-        $usersQuery = $this->getUserListByTypeQuery($data);
+        $usersQuery = $this->getUserListByTypeQuery($data,$startFrom,$rowNum);
         if ($usersQuery) {
             while ($dataReturn = $usersQuery->fetch_assoc()) {
                 $returnData[] = $dataReturn;
@@ -115,8 +118,12 @@ class UserRepository extends Repository {
         return $returnData;
     }
 
-    public function getUserListByTypeQuery($data) {
+    public function getUserListByTypeQuery($data,$startFrom=0,$rowNum=0) {
         $orderBy = "";
+        $limit='';
+        if($rowNum!=0){
+            $limit.=' limit '.$startFrom.','.$rowNum;
+        }
         if (isset($data['sort_by']) && $data['sort_by'] == "userByLateCount") {
             $orderBy = " order by late_count desc";
         }
@@ -127,7 +134,7 @@ class UserRepository extends Repository {
             $orderBy = " order by user_name asc";
         }
         return $this->dbManager->read_query('SELECT u.*,sec_to_time(AVG(time_to_sec(us.`time_entered`))) AS average_arrival, 
-            SUM(IF(TIME(us.`time_entered`) > TIME("10:00:00") ,1,0)) AS late_count FROM `user` AS u LEFT OUTER JOIN user_signin AS us ON u.id=us.user_id where status="1" GROUP BY u.id ' . $orderBy);
+            SUM(IF(TIME(us.`time_entered`) > TIME("10:00:00") ,1,0)) AS late_count FROM `user` AS u LEFT OUTER JOIN user_signin AS us ON u.id=us.user_id where status="1" GROUP BY u.id ' . $orderBy." ".$limit);
     }
 
     /*
