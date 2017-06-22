@@ -32,6 +32,7 @@
 	#go to folder
 	cd /home/user/projects/webonise/
 	sudo nano app/config/dbConfig.php # give your mysql credentials
+	composer install
 	
 
 
