@@ -1,0 +1,15 @@
+{
+    "require": {
+        "twig/twig": "1.*",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/yaml": "^3.2",
+        "symfony/config": "^3.2"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "App\\": "app/modules/"
+        }
+    }
+}

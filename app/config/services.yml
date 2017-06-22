@@ -1,0 +1,14 @@
+services:
+    user.service.user_service:
+        class:    App\User\Services\UserService
+    user.model.user:
+        class:    App\User\Models\User
+    user.repository.user_repository:
+        class:    App\User\Repository\UserRepository
+        
+    admin.service.user_service:
+        class:    App\Admin\Services\UserService
+    admin.model.user:
+        class:    App\Admin\Models\User
+    admin.repository.user_repository:
+        class:    App\Admin\Repository\UserRepository
