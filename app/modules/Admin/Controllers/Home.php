@@ -57,17 +57,19 @@ class Home extends Controller {
         if ($this->checkLogin()) {
             if (!empty($_GET['pagenumber'])) {
                 $this->pageNumber = $_GET['pagenumber'];
-                $this->startFrom = ($this->pageNumber-1) * $this->showNumbers;
+                $this->startFrom = ($this->pageNumber - 1) * $this->showNumbers;
             }
             $countTotalRows = count($this->service->getUsers());
             $this->pageCount = ceil($countTotalRows / $this->showNumbers);
-            if ($_POST) {
+            if (isset($_GET['date'])) {
 
-                $totalEmps = $this->service->getUsersWithDetails($_POST, $this->startFrom, $this->showNumbers);
-                $totalSignin = $this->service->getPunchin($_POST);
+                $totalEmps = $this->service->getUsersWithDetails($_GET, $this->startFrom, $this->showNumbers);
+                $totalSignin = $this->service->getPunchin($_GET);
+                $currentUrl = "/" . $_GET['url'] . "?date=" . $_GET['date'];
             } else {
                 $totalEmps = $this->service->getUsersWithDetails(array('date' => date('Y-m-d')), $this->startFrom, $this->showNumbers);
                 $totalSignin = $this->service->getPunchin(array('date' => date('Y-m-d')));
+                $currentUrl = "/" . $_GET['url'] . "?";
             }
             if (count($totalSignin)) {
                 $averageTime = isset($totalSignin['averageInTime']) ? $totalSignin['averageInTime'] : '';
@@ -79,20 +81,22 @@ class Home extends Controller {
                     'signedIn' => count($totalSignin),
                     'notPresent' => $countTotalRows - count($totalSignin),
                     'averageInTime' => $averageTime,
-                    'currentStatDate' => isset($_POST['date']) ? $_POST['date'] : date('Y-m-d'),
+                    'currentStatDate' => isset($_GET['date']) ? $_GET['date'] : date('Y-m-d'),
                     'currentDate' => date('Y-m-d'),
                     'pageCount' => $this->pageCount,
-                    'currentPage' => $this->pageNumber
+                    'currentPage' => $this->pageNumber,
+                    'currentUrl' => $currentUrl
                         ]
                 );
             } else {
                 $this->view(
                         'admin.dashboard', [
-                    'currentStatDate' => isset($_POST['date']) ? $_POST['date'] : date('Y-m-d'),
+                    'currentStatDate' => isset($_GET['date']) ? $_GET['date'] : date('Y-m-d'),
                     'totalEmp' => $countTotalRows,
                     'totalEmps' => $totalEmps,
                     'pageCount' => $this->pageCount,
-                    'currentPage' => $this->pageNumber
+                    'currentPage' => $this->pageNumber,
+                    'currentUrl' => $currentUrl
                 ]);
             }
         }
@@ -121,7 +125,7 @@ class Home extends Controller {
         if ($this->checkLogin()) {
             if (!empty($_GET['pagenumber'])) {
                 $this->pageNumber = $_GET['pagenumber'];
-                $this->startFrom = ($this->pageNumber-1) * $this->showNumbers;
+                $this->startFrom = ($this->pageNumber - 1) * $this->showNumbers;
             }
             $countTotalRows = count($this->service->getUsers());
             $this->pageCount = ceil($countTotalRows / $this->showNumbers);
@@ -129,18 +133,18 @@ class Home extends Controller {
             if (!empty($_GET['sort_by'])) {
                 $totalEmp = $this->service->getUsersWithAllDetails($_GET, $this->startFrom, $this->showNumbers);
                 $selected = $_GET['sort_by'];
-                $currentUrl="/".$_GET['url']."?sort_by=".$_GET['sort_by'];
+                $currentUrl = "/" . $_GET['url'] . "?sort_by=" . $_GET['sort_by'];
             } else {
                 $totalEmp = $this->service->getUsersWithAllDetails(null, $this->startFrom, $this->showNumbers);
-                $currentUrl="/".$_GET['url']."?";
+                $currentUrl = "/" . $_GET['url'] . "?";
             }
             $this->view(
                     'admin.userView', [
                 'totalEmp' => $totalEmp,
                 'selected' => $selected,
-                    'pageCount' => $this->pageCount,
-                    'currentPage' => $this->pageNumber,
-                        'currentUrl'=>$currentUrl
+                'pageCount' => $this->pageCount,
+                'currentPage' => $this->pageNumber,
+                'currentUrl' => $currentUrl
                     ]
             );
         }

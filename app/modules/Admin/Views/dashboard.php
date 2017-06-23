@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="widget-header">
                                     <h3>Select View type</h3>
-                                    <form style="display: inline-block" action="" method="post">
+                                    <form style="display: inline-block" action="" method="get">
                                         <input value="{{currentStatDate}}" data-date-start-date="-365d" data-date-end-date="0d" class="datepicker" name="date" type="date" data-provide="datepicker"/>
 
                                         <button class="btn-success" type="submit">Get records</button>
@@ -155,7 +155,7 @@
                             <div class="pagination-right widget ">
                                     {% set k=pageCount%}
                                     {% for i in range(1, k) %}
-                                    <a class="btn {% if currentPage==i %}btn-success {% else %}btn-primary {% endif %}" href="/admin/home/dashboard?pagenumber={{i}}">{{i}}</a>
+                                    <a class="btn {% if currentPage==i %}btn-success {% else %}btn-primary {% endif %}" href="{{currentUrl}}&pagenumber={{i}}">{{i}}</a>
                                     {% endfor %}
                                 </div>
                         </div>
