@@ -77,7 +77,7 @@
 
 
                                                 <div class="stat" title="Number Of Present"> <i class="icon-check-sign"></i> <span class="value">{{details.daysPresent}}</span> </div>
-                                                <div class="stat" title="Number Of Days Late"> <i class="icon-check-sign"></i> <span class="value">{{details.lateCount}}</span> </div>
+                                                <div class="stat" title="Number Of Days Late"> <i class="icon-warning-sign"></i> <span class="value">{{details.lateCount}}</span> </div>
 
 
                                                 <div class="stat" title="Average In Time"> <i class="icon-time"></i> <span class="value">{{details.averageInTime}}</span> </div>
